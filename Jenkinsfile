@@ -16,9 +16,28 @@ pipeline {
 			path= "$mavenHome/bin:$PATH"
 	}
 	stages{
-		stage('Build'){
+		stage('checkout'){
 			steps{
 				sh 'mvn --version'
+				echo "PATH - $PATH"
+			}
+		}
+		stage('Compile'){
+			steps {
+				sh 'mvn clean compile'
+
+			}
+		}
+		stage('Test'){
+			steps {
+				sh 'mvn test'
+				
+			}
+		}
+		stage('Integration test'){
+			steps {
+				sh 'mvn failsafe:integration-test failesafe:verify'
+				
 			}
 		}
 	}
