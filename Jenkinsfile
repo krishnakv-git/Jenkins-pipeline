@@ -20,6 +20,8 @@ pipeline {
 			steps{
 				sh 'mvn --version'
 				echo "PATH - $PATH"
+				echo "BUILD_URL - $env.BUILD_URL"
+				echo "BUILD_TAG - $env.BUILD_TAG"
 			}
 		}
 		stage('Compile'){
@@ -40,5 +42,33 @@ pipeline {
 				
 			}
 		}
+		stage('Package'){
+			steps {
+				sh 'mvn package -DskipTests'
+				
+			}
+		}
+		stage('Build Docker Image'){
+			steps {
+				//sh 'mvn test'
+				script{
+					dockerImage = docker.build("krisdocmac/currency-exchange:${$env.BUILD_TAG}")
+				}
+				
+			}
+		}
+		stage('Push Docker Image'){
+			steps {
+			  script{
+				  docker.withRegistry(' ','mydocker'){
+				  dockerImage.push();
+				  dockerImage.push("latest");
+			         }
+			  }
+				
+			}
+		}
+
+		
 	}
 }
