@@ -52,7 +52,7 @@ pipeline {
 			steps {
 				//sh 'mvn test'
 				script {
-					dockerImage = docker.build("krisdocmac/currency-exchange:${$env.BUILD_TAG}")
+					dockerImage = docker.build("krisdocmac/currency-exchange:test")
 				}
 				
 			}
