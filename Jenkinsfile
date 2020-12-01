@@ -51,7 +51,7 @@ pipeline {
 		stage('Build Docker Image'){
 			steps {
 				//sh 'mvn test'
-				script{
+				script {
 					dockerImage = docker.build("krisdocmac/currency-exchange:${$env.BUILD_TAG}")
 				}
 				
@@ -60,7 +60,7 @@ pipeline {
 		stage('Push Docker Image'){
 			steps {
 			  script{
-				  docker.withRegistry(' ','mydocker'){
+				  docker.withRegistry(' ','mydcoker'){
 				  dockerImage.push();
 				  dockerImage.push("latest");
 			         }
